@@ -5,24 +5,69 @@ import LeadListView from '../../components/LeadListView';
 import getExamStatus from '../../controller/getExamStatus';
 import getPaymentStatus from '../../controller/getPaymentStatus';
 import { RefreshControl, FlatList } from 'react-native';
-const ViewLead = () => {
-    const [lead, setLead] = useState({});
-    const [examStatus, setExamStatus] = useState([]);
-    const [paymentStatus, setPaymentStatus] = useState([]);
+import { useSelector } from 'react-redux';
+import { createLeadList } from '../../store/reducers/leadList';
+import { createExamsStatus } from '../../store/reducers/examStatus';
+import { useDispatch } from 'react-redux';
+import { createPaymentStatus } from '../../store/reducers/paymentStatus';
+const ViewLead = ({ navigation }) => {
+    const dispatch = useDispatch();
+    const leadList = useSelector(state => state.leadList.leadList)
+    const examStatus = useSelector(state => state.examStatus.examStatus)
+    const paymentStatus = useSelector(state => state.paymentStatus.paymentStatus)
     const [refresh, setRefresh] = useState(false);
+
+    //  console.log(Math.random(), `  => `, paymentStatus);
+    const [isUploading, setIsUploading] = useState(false);
     useEffect(() => {
-        setAllLead()
+        pullToUpdate();
+        return () => {
+            dispatch(createLeadList([]))
+        }
     }, []);
 
-    async function setAllLead() {
-        const leadOBJ = await getAllLead();
-        const ex = await getExamStatus();
-        const pm = await getPaymentStatus();
-        setLead([...leadOBJ]);
-        setExamStatus([...ex]);
-        setPaymentStatus([...pm])
-    }
+    const currentUser = useSelector((state) => state.auth.auth[0]);
+    const userAttr = currentUser[0].userAttr;
+    let userId = ''
+    userAttr.forEach(element => {
+        if (element.Name === "custom:userID") {
+            userId = element.Value
+        }
+    });
+    const executiveLead = leadList.filter((l) => l.executiveID === userId)
 
+    async function setAllLead() {
+        try {
+            const leadOBJ = await getAllLead();
+            const ex = await getExamStatus();
+            const pm = await getPaymentStatus();
+            return ([{ leadOBJ }, { ex }, { pm }]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async function doRefresh() {
+        pullToUpdate()
+    }
+    const pullToUpdate = () => {
+        setRefresh(true);
+        setAllLead().then((r) => {
+            if (r.length > 0) {
+                r.forEach(element => {
+                    if (Object.keys(element)[0] === "leadOBJ") {
+                        dispatch(createLeadList([...element.leadOBJ]))
+                    }
+                    if (Object.keys(element)[0] === "pm") {
+                        dispatch(createPaymentStatus([...element.pm]))
+                    }
+                    if (Object.keys(element)[0] === "ex") {
+                        dispatch(createExamsStatus([...element.ex]))
+                        setRefresh(false);
+                    }
+                });
+            }
+        })
+    }
     return (
         examStatus.length > 0 && paymentStatus.length > 0 ?
             <Box flex={1}>
@@ -34,13 +79,20 @@ const ViewLead = () => {
                 </HStack>
 
                 <FlatList
-                    data={lead}
-                    renderItem={({ item }) => (<LeadListView item={item} payload={[examStatus, paymentStatus]} refresh={setAllLead} />)}
+                    data={executiveLead}
+                    renderItem={({ item }) => (<LeadListView
+                        item={item}
+                        payload={[examStatus, paymentStatus]}
+                        refresh={pullToUpdate}
+                        lead={executiveLead}
+                        toggleIsUploading={[isUploading, setIsUploading]}
+                        navigation={navigation}
+                    />)}
                     keyExtractor={(item) => item.id}
                     refreshControl={
                         <RefreshControl
                             refreshing={refresh}
-                            onRefresh={() => setAllLead()}
+                            onRefresh={doRefresh}
                             tintColor="red"
                         />
                     }

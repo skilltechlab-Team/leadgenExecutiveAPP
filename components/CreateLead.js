@@ -1,16 +1,51 @@
-import React from 'react';
-import { Box, CheckIcon, FormControl, Icon, Input, Select, Stack, VStack } from 'native-base';
+import React, { useRef } from 'react';
+import { CheckIcon, Icon, Input, Select, VStack } from 'native-base';
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons"
-import SubmitButton from './SubmitButton';
 import { useState } from 'react';
-import LoadingButton from './LoadingButton';
-import { useDispatch } from 'react-redux';
-import { useToast } from 'native-base';
-import getStatus, { statusNames } from '../constants/Satus';
 import FormController from './FormController';
+import country_codes from '../constants/country_codes'
+import DateTimePicker from '@react-native-community/datetimepicker';
+// import DismissKeyboard from './DismissKeyboard';
+import date_time from 'date-and-time';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 const CreateLead = ({ leadSetter }) => {
     const [lead, setLead, vendorList, examListDetails, calculateNetProfit] = leadSetter;
+    const countryDetails = useRef(country_codes())
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+    const pattern = date_time.compile('ddd, MMM DD YYYY');
+    const pattern2 = date_time.compile('hh : mm A');
 
+    const DismissKeyboard = ({ children }) => (
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            {children}
+        </TouchableWithoutFeedback>
+    );
+
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+    };
+    const onChange = (event, selectedDate) => {
+        if (event.type !== "dismissed") {
+            const currentDate = selectedDate || date;
+            setShow(Platform.OS === 'ios');
+            setDate(currentDate);
+            setLead((lead) => ({ ...lead, proposedDate: date_time.format(currentDate, pattern) }))
+            setLead((lead) => ({ ...lead, proposedTime: date_time.format(currentDate, pattern2) }))
+        }
+    };
+
+
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
+    const showTimepicker = () => {
+        showMode('time');
+    };
     return (
         <>
             <FormController isRequired={true} label="Lead Name" >
@@ -38,7 +73,7 @@ const CreateLead = ({ leadSetter }) => {
                     value={lead.name}
                 />
             </FormController>
-            <FormController isRequired={true} label="Lead Email" >
+            <FormController isRequired={false} label="Lead Email" >
                 <Input
 
                     w={{
@@ -64,32 +99,33 @@ const CreateLead = ({ leadSetter }) => {
                     value={lead.email}
                 />
             </FormController>
-            <FormController isRequired={true} label="Country Code" >
-                <Input
+            <FormController isRequired={false} label="Country Code" >
+                <VStack alignItems="center" space={4} w={"80%"} >
+                    <Select
+                        minWidth="58%"
+                        _selectedItem={{
+                            bg: "teal.600",
+                            endIcon: <CheckIcon size="5" />,
+                        }}
+                        mt={1}
+                        placeholder="--Select Country--"
+                        borderColor={'muted.600'}
+                        onValueChange={(itemValue) => {
+                            setLead({ ...lead, country_code: itemValue })
+                        }}
+                        selectedValue={lead.country_code}
 
-                    w={{
-                        base: "80%",
-                        md: "25%",
-                    }}
-                    InputLeftElement={
-                        <Icon
-                            as={<MaterialIcons name="code" />}
-                            size={5}
-                            ml="2"
-                            color="muted.400"
-                        />
-                    }
-                    keyboardType='decimal-pad'
-                    placeholder="Country Code"
-                    borderColor={'muted.600'}
-                    onChangeText={(val) => {
-                        setLead({ ...lead, country_code: val })
-                    }}
-                    onBlur={() => {
-                        setLead({ ...lead, country_code: lead.country_code.trim() })
-                    }}
-                    value={lead.country_code}
-                />
+                    >
+                        {
+                            countryDetails.current.map((country_code, index) => {
+                                const code = country_code.code;
+                                const name = country_code.name;
+                                return (<Select.Item label={code + " - " + name} value={code} key={index.toString()} />)
+                            })
+                        }
+
+                    </Select>
+                </VStack>
             </FormController>
             <FormController isRequired={true} label="Lead Phone Number" >
                 <Input
@@ -119,6 +155,7 @@ const CreateLead = ({ leadSetter }) => {
                 />
             </FormController>
 
+
             {
                 vendorList.length > 0 ?
                     <FormController isRequired={true} label="Select Vendor" >
@@ -138,6 +175,7 @@ const CreateLead = ({ leadSetter }) => {
                                 selectedValue={lead.vendor_id}
 
                             >
+                                <Select.Item label={"Self"} value={"Self"} />
                                 {
                                     vendorList.map((vendor, index) => {
                                         return (<Select.Item label={vendor.vendor_Name} value={vendor.id} key={vendor.id + Math.random(3000).toString() + index.toString()} />)
@@ -149,6 +187,8 @@ const CreateLead = ({ leadSetter }) => {
                     </FormController>
                     : <></>
             }
+
+
             {
                 examListDetails.length > 0 ?
                     <FormController isRequired={true} label="Select Exam" >
@@ -179,6 +219,8 @@ const CreateLead = ({ leadSetter }) => {
                     </FormController>
                     : <></>
             }
+
+
             <FormController isRequired={true} label="Exam Status" >
                 <VStack alignItems="center" space={4} w={"80%"} >
                     <Select
@@ -198,10 +240,83 @@ const CreateLead = ({ leadSetter }) => {
                     >
                         <Select.Item label={"Booked"} value={'booked'} />
                         <Select.Item label={"Complete"} value={'complete'} />
+                        <Select.Item label={"Reschedule"} value={'reschedule'} />
 
                     </Select>
                 </VStack>
             </FormController>
+            {show && (
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={mode}
+                    is24Hour={false}
+                    display="default"
+                    onChange={onChange}
+
+                />
+            )}
+
+            {
+                lead.exam_status === "booked" ||
+                    lead.exam_status === "reschedule" ?
+                    <FormController isRequired={true} label="Select Exam Date" >
+                        <DismissKeyboard>
+                            <Input
+                                w={{
+                                    base: "80%",
+                                    md: "25%",
+                                }}
+
+                                onPressIn={showDatepicker}
+
+                                InputLeftElement={
+                                    <Icon
+                                        as={<MaterialIcons name="calendar-today" />}
+                                        size={5}
+                                        ml="2"
+                                        color="muted.400"
+                                    />
+                                }
+                                placeholder="DD/MM/YYYY"
+                                borderColor={'muted.600'}
+                                value={lead.proposedDate}
+                            />
+                        </DismissKeyboard>
+                    </FormController> : <></>
+            }
+
+
+            {
+                lead.exam_status === "booked" ||
+                    lead.exam_status === "reschedule" ?
+                    <FormController isRequired={true} label="Select Exam Time" >
+
+                        <DismissKeyboard>
+                            <Input
+                                w={{
+                                    base: "80%",
+                                    md: "25%",
+                                }}
+
+                                onPressIn={showTimepicker}
+
+                                InputLeftElement={
+                                    <Icon
+                                        as={<MaterialIcons name="timer" />}
+                                        size={5}
+                                        ml="2"
+                                        color="muted.400"
+                                    />
+                                }
+                                placeholder="HH : MM"
+                                borderColor={'muted.600'}
+                                value={lead.proposedTime}
+                            />
+                        </DismissKeyboard>
+                    </FormController> : <></>
+            }
+
             <FormController isRequired={true} label="Payment Status" >
                 <VStack alignItems="center" space={4} w={"80%"} >
                     <Select
@@ -221,11 +336,40 @@ const CreateLead = ({ leadSetter }) => {
                     >
                         <Select.Item label={"Recieved"} value={'Recieved'} />
                         <Select.Item label={"Pending"} value={'Pending'} />
-                        <Select.Item label={"Due"} value={'Due'} />
 
                     </Select>
                 </VStack>
             </FormController>
+            {
+                lead.payment_status === 'Recieved' ?
+                    <FormController isRequired={true} label="Confirmation Number" >
+                        <Input
+
+                            w={{
+                                base: "80%",
+                                md: "25%",
+                            }}
+                            InputLeftElement={
+                                <Icon
+                                    as={<FontAwesome name="file" />}
+                                    size={5}
+                                    ml="2"
+                                    color="muted.400"
+                                />
+                            }
+                            placeholder="Enter Confirmation Number"
+                            borderColor={'muted.600'}
+                            onChangeText={(val) => {
+                                setLead({ ...lead, confirmation_number: val })
+                            }}
+                            onBlur={() => {
+                                setLead({ ...lead, confirmation_number: lead.confirmation_number.trim() })
+                            }}
+                            value={lead.confirmation_number}
+                        />
+                    </FormController>
+                    : <></>
+            }
             <FormController isRequired={true} label="Total Course Fees" >
                 <Input
 

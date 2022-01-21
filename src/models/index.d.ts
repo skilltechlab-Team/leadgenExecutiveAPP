@@ -48,6 +48,7 @@ export declare class PaymentMaster {
   readonly id: string;
   readonly status?: string;
   readonly leadMasterID: string;
+  readonly confirmation_number?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<PaymentMaster, PaymentMasterMetaData>);
@@ -69,6 +70,8 @@ export declare class ExamStatus {
   readonly leadMasterID: string;
   readonly status?: string;
   readonly examID?: string;
+  readonly proposedDate?: string;
+  readonly proposedTime?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<ExamStatus, ExamStatusMetaData>);
@@ -99,6 +102,9 @@ export declare class LeadMaster {
   readonly total_fees?: string;
   readonly executiveID?: string;
   readonly payment?: string;
+  readonly proposedDate?: string;
+  readonly proposedTime?: string;
+  readonly confirmation_number?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<LeadMaster, LeadMasterMetaData>);

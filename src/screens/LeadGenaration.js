@@ -25,7 +25,10 @@ const LeadGenaration = ({ navigation }) => {
     const toast = useToast()
     const username = currentUser[0].token.payload.username;
     const [userStatus, setUserStatus] = useState(false);
-    const [lead, setLead] = useState({ vendor_id: '', exam_id: '', country_code: '', email: '', name: '', phone: '', payment: '', trainer_charges: '', net_profit: '', total_course_fee: '', exam_status: '', payment_status: '' });
+    const [lead, setLead] = useState({
+        vendor_id: '', exam_id: '', country_code: '+91', email: '', name: '', phone: '', payment: '', trainer_charges: '', net_profit: '', total_course_fee: '', exam_status: '', payment_status: '',
+        proposedDate: '', proposedTime: '', confirmation_number: ''
+    });
     const [vendorList, setVendorList] = useState([]);
     const examListDetails = useSelector(state => state.exam.examsList);
     const dispatch = useDispatch();
@@ -63,38 +66,59 @@ const LeadGenaration = ({ navigation }) => {
     async function onSubmit() {
         setIsUploading(true)
         calculateNetProfit(lead.total_course_fee, lead.trainer_charges);
-        const { vendor_id, exam_id, country_code, email, name, phone, payment, trainer_charges, net_profit, total_course_fee, exam_status, payment_status } = lead;
+        const { vendor_id, exam_id, country_code, email, name, phone, payment, trainer_charges, net_profit, total_course_fee, exam_status, payment_status, proposedDate, proposedTime, confirmation_number } = lead;
 
-        if (vendor_id !== '' && exam_id !== '' && country_code !== '' && email !== '' && name !== '' && phone !== '' && payment !== '' && trainer_charges !== '' && net_profit !== '' && total_course_fee !== '' && exam_status !== '' && payment_status !== '') {
-            const leadDetailsObject = {
-                name: name,
-                email: email,
-                country_code: country_code,
-                phone: phone,
-                exam_Id: exam_id,
-                vendor_Id: vendor_id,
-                payment_id: '',
-                trainer_charges: trainer_charges,
-                net_profit: net_profit,
-                total_fees: total_course_fee,
-                executiveID: userID,
-                payment: payment
+        if (vendor_id !== '' && exam_id !== '' && name !== '' && phone !== '' && payment !== '' && trainer_charges !== '' && net_profit !== '' && total_course_fee !== '' && exam_status !== '' && payment_status !== '') {
+            if ((exam_status === "booked" || exam_status === "reschedule") && (proposedDate === '' || proposedTime === '')) {
+                setStatus(getStatus(statusNames.error, 'Exam Date Required'))
+                setTimeout(() => {
+                    setStatus({})
+                    setIsUploading(false)
+                }, 5000);
+            } else if (lead.payment_status === 'Recieved' && lead.confirmation_number === '') {
+                setStatus(getStatus(statusNames.error, 'Payment Confirmation Number Required'))
+                setTimeout(() => {
+                    setStatus({})
+                    setIsUploading(false)
+                }, 5000);
             }
-            const paymentStatusDetails = {
-                status: payment_status
-            }
-            const examStatusDetails = {
+            else {
+                const leadDetailsObject = {
+                    name: name,
+                    email: email,
+                    country_code: country_code,
+                    phone: phone,
+                    exam_Id: exam_id,
+                    vendor_Id: vendor_id,
+                    payment_id: '',
+                    trainer_charges: trainer_charges,
+                    net_profit: net_profit,
+                    total_fees: total_course_fee,
+                    executiveID: userID,
+                    payment: payment,
+                    proposedDate,
+                    proposedTime,
+                    confirmation_number
+                }
+                const paymentStatusDetails = {
+                    status: payment_status,
+                    confirmation_number
+                }
+                const examStatusDetails = {
 
-                status: exam_status,
-                examID: exam_id
-            }
-            const submissionStatus = await createALead(leadDetailsObject, toast, paymentStatusDetails, examStatusDetails);
-            if (submissionStatus !== -1) {
-                setStatus(getStatus(statusNames.success, 'Lead Generated Successfully!'))
+                    status: exam_status,
+                    examID: exam_id,
+                    proposedDate,
+                    proposedTime
+                }
+                const submissionStatus = await createALead(leadDetailsObject, toast, paymentStatusDetails, examStatusDetails);
+                if (submissionStatus !== -1) {
+                    setStatus(getStatus(statusNames.success, 'Lead Generated Successfully!'))
+                    setIsUploading(false)
+                    setLead({ vendor_id: '', exam_id: '', country_code: '+91', email: '', name: '', phone: '', payment: '', trainer_charges: '', net_profit: '', total_course_fee: '', exam_status: '', payment_status: '' })
+                } else setStatus(getStatus(statusNames.error, 'Lead Generation Failed'))
                 setIsUploading(false)
-                setLead({ vendor_id: '', exam_id: '', country_code: '', email: '', name: '', phone: '', payment: '', trainer_charges: '', net_profit: '', total_course_fee: '', exam_status: '', payment_status: '' })
-            } else setStatus(getStatus(statusNames.error, 'Lead Generation Failed'))
-            setIsUploading(false)
+            }
         } else {
             setStatus(getStatus(statusNames.error, 'All Fields Are Required'))
             setTimeout(() => {

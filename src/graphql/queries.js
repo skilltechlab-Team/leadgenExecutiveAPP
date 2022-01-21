@@ -96,6 +96,7 @@ export const getPaymentMaster = /* GraphQL */ `
       id
       status
       leadMasterID
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -116,6 +117,7 @@ export const listPaymentMasters = /* GraphQL */ `
         id
         status
         leadMasterID
+        confirmation_number
         createdAt
         updatedAt
         _version
@@ -145,6 +147,7 @@ export const syncPaymentMasters = /* GraphQL */ `
         id
         status
         leadMasterID
+        confirmation_number
         createdAt
         updatedAt
         _version
@@ -231,6 +234,8 @@ export const getExamStatus = /* GraphQL */ `
       leadMasterID
       status
       examID
+      proposedDate
+      proposedTime
       createdAt
       updatedAt
       _version
@@ -252,6 +257,8 @@ export const listExamStatuses = /* GraphQL */ `
         leadMasterID
         status
         examID
+        proposedDate
+        proposedTime
         createdAt
         updatedAt
         _version
@@ -282,6 +289,8 @@ export const syncExamStatuses = /* GraphQL */ `
         leadMasterID
         status
         examID
+        proposedDate
+        proposedTime
         createdAt
         updatedAt
         _version
@@ -377,6 +386,9 @@ export const getLeadMaster = /* GraphQL */ `
       total_fees
       executiveID
       payment
+      proposedDate
+      proposedTime
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -407,6 +419,9 @@ export const listLeadMasters = /* GraphQL */ `
         total_fees
         executiveID
         payment
+        proposedDate
+        proposedTime
+        confirmation_number
         createdAt
         updatedAt
         _version
@@ -446,6 +461,9 @@ export const syncLeadMasters = /* GraphQL */ `
         total_fees
         executiveID
         payment
+        proposedDate
+        proposedTime
+        confirmation_number
         createdAt
         updatedAt
         _version

@@ -1,19 +1,27 @@
 import { Auth } from "aws-amplify";
-
-const handleLoginEvent = async (loginHandler) => {
+import getStatus, { statusNames } from "../constants/Satus";
+const handleLoginEvent = async (loginHandler, setStatus) => {
     try {
         const user = await Auth.signIn(loginHandler.username, loginHandler.password);
 
         const token = user.signInUserSession.accessToken;
         if (token !== undefined) {
             return token;
-        } else return -1;
+        } else {
+            setStatus(getStatus(statusNames.error, "Invalid Token or Network Error Occured"))
+            return -1
+        };
     } catch (error) {
+        if (!error.message) {
+            setStatus(getStatus(statusNames.error, JSON.stringify(error)))
+        } else {
+            setStatus(getStatus(statusNames.error, error.message))
+        }
         console.log(error);
         return -1;
     }
 }
-export const getCurrentAuthenticatedUser = async () => {
+export const getCurrentAuthenticatedUser = async (setStatus) => {
     try {
         const userArr = []
         const user = await Auth.currentAuthenticatedUser()
@@ -23,9 +31,16 @@ export const getCurrentAuthenticatedUser = async () => {
         if (user) {
             return userArr;
         }
-        else
+        else {
+            setStatus(getStatus(statusNames.error, "Invalid Token or Network Error Occured"))
             return false;
+        }
     } catch (error) {
+        if (!error.message) {
+            setStatus(getStatus(statusNames.error, JSON.stringify(error)))
+        } else {
+            setStatus(getStatus(statusNames.error, error.message))
+        }
         return false;
     }
 }

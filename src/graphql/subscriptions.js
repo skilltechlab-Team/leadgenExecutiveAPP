@@ -70,6 +70,7 @@ export const onCreatePaymentMaster = /* GraphQL */ `
       id
       status
       leadMasterID
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -85,6 +86,7 @@ export const onUpdatePaymentMaster = /* GraphQL */ `
       id
       status
       leadMasterID
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -100,6 +102,7 @@ export const onDeletePaymentMaster = /* GraphQL */ `
       id
       status
       leadMasterID
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -161,6 +164,8 @@ export const onCreateExamStatus = /* GraphQL */ `
       leadMasterID
       status
       examID
+      proposedDate
+      proposedTime
       createdAt
       updatedAt
       _version
@@ -177,6 +182,8 @@ export const onUpdateExamStatus = /* GraphQL */ `
       leadMasterID
       status
       examID
+      proposedDate
+      proposedTime
       createdAt
       updatedAt
       _version
@@ -193,6 +200,8 @@ export const onDeleteExamStatus = /* GraphQL */ `
       leadMasterID
       status
       examID
+      proposedDate
+      proposedTime
       createdAt
       updatedAt
       _version
@@ -263,6 +272,9 @@ export const onCreateLeadMaster = /* GraphQL */ `
       total_fees
       executiveID
       payment
+      proposedDate
+      proposedTime
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -288,6 +300,9 @@ export const onUpdateLeadMaster = /* GraphQL */ `
       total_fees
       executiveID
       payment
+      proposedDate
+      proposedTime
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -313,6 +328,9 @@ export const onDeleteLeadMaster = /* GraphQL */ `
       total_fees
       executiveID
       payment
+      proposedDate
+      proposedTime
+      confirmation_number
       createdAt
       updatedAt
       _version

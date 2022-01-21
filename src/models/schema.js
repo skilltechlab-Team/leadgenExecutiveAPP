@@ -107,12 +107,36 @@ export const schema = {
                                 ]
                             },
                             {
+                                "allow": "public",
+                                "provider": "apiKey",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "allow": "private",
+                                "provider": "userPools",
                                 "operations": [
                                     "read",
                                     "create",
-                                    "delete",
-                                    "update"
+                                    "update",
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -142,6 +166,13 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "confirmation_number": {
+                    "name": "confirmation_number",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -185,12 +216,36 @@ export const schema = {
                                 ]
                             },
                             {
+                                "allow": "public",
+                                "provider": "apiKey",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "allow": "private",
+                                "provider": "userPools",
                                 "operations": [
                                     "read",
                                     "create",
-                                    "delete",
-                                    "update"
+                                    "update",
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -263,12 +318,36 @@ export const schema = {
                                 ]
                             },
                             {
+                                "allow": "public",
+                                "provider": "apiKey",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "allow": "private",
+                                "provider": "userPools",
                                 "operations": [
                                     "read",
                                     "create",
-                                    "delete",
-                                    "update"
+                                    "update",
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -302,6 +381,20 @@ export const schema = {
                 },
                 "examID": {
                     "name": "examID",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "proposedDate": {
+                    "name": "proposedDate",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "proposedTime": {
+                    "name": "proposedTime",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -348,12 +441,36 @@ export const schema = {
                                 ]
                             },
                             {
+                                "allow": "public",
+                                "provider": "apiKey",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "allow": "private",
+                                "provider": "userPools",
                                 "operations": [
                                     "read",
                                     "create",
-                                    "delete",
-                                    "update"
+                                    "update",
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -426,12 +543,36 @@ export const schema = {
                                 ]
                             },
                             {
+                                "allow": "public",
+                                "provider": "apiKey",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "allow": "private",
+                                "provider": "userPools",
                                 "operations": [
                                     "read",
                                     "create",
-                                    "delete",
-                                    "update"
+                                    "update",
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -533,6 +674,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "proposedDate": {
+                    "name": "proposedDate",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "proposedTime": {
+                    "name": "proposedTime",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "confirmation_number": {
+                    "name": "confirmation_number",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -574,12 +736,36 @@ export const schema = {
                                 ]
                             },
                             {
+                                "allow": "public",
+                                "provider": "apiKey",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "allow": "private",
+                                "provider": "userPools",
                                 "operations": [
                                     "read",
                                     "create",
-                                    "delete",
-                                    "update"
+                                    "update",
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -590,5 +776,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "52bc29ff449f92ef11536a9077a4030c"
+    "version": "d06b8b404880a79ee8526dc5371ec1f3"
 };

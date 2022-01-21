@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'native-base';
-const LoadingButton = () => {
+const LoadingButton = ({ size = 'full' }) => {
     return (
         <Button isLoading
-            size={'full'}
+            size={size}
             mt={10}
             _loading={{
                 bg: "muted.700",

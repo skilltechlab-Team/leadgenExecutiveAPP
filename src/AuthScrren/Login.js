@@ -11,6 +11,7 @@ import AlertCreator from '../../components/AlertCreator'
 import LoadingButton from '../../components/LoadingButton'
 import SubmitButton from '../../components/SubmitButton';
 import UserLoading from '../../components/AuthComp/UserLoading'
+
 const Login = ({ navigation }) => {
     const [loginHandler, setLoginHandler] = React.useState({ username: 'avik', password: 'Mahavir2' });
     const [status, setStatus] = useState({});
@@ -28,7 +29,7 @@ const Login = ({ navigation }) => {
     }
 
     async function isUserAuthenticated() {
-        const userDetails = await getCurrentAuthenticatedUser();
+        const userDetails = await getCurrentAuthenticatedUser(setStatus);
         if (userDetails) {
             setIsLoading(false)
             await getUsersList()
@@ -37,11 +38,13 @@ const Login = ({ navigation }) => {
             setTimeout(() => {
                 navigation.replace('DrawerRoutes', { screen: 'LeadGenaration' });
             }, 1500);
-        } else setIsLoading(false)
+        } else {
+            setIsLoading(false)
+        }
     }
     const onSubmit = async () => {
         setIsUploading(true)
-        const loginStatus = await handleLoginEvent(loginHandler);
+        const loginStatus = await handleLoginEvent(loginHandler, setStatus);
         if (loginStatus !== -1) {
             getUsersList()
             isUserAuthenticated()

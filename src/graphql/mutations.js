@@ -1,6 +1,137 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const deleteExecutiveMaster = /* GraphQL */ `
+  mutation DeleteExecutiveMaster(
+    $input: DeleteExecutiveMasterInput!
+    $condition: ModelExecutiveMasterConditionInput
+  ) {
+    deleteExecutiveMaster(input: $input, condition: $condition) {
+      id
+      name
+      phone
+      email
+      imageURI
+      filename
+      status
+      username
+      gender
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deletePaymentMaster = /* GraphQL */ `
+  mutation DeletePaymentMaster(
+    $input: DeletePaymentMasterInput!
+    $condition: ModelPaymentMasterConditionInput
+  ) {
+    deletePaymentMaster(input: $input, condition: $condition) {
+      id
+      status
+      leadMasterID
+      confirmation_number
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteVendorMaster = /* GraphQL */ `
+  mutation DeleteVendorMaster(
+    $input: DeleteVendorMasterInput!
+    $condition: ModelVendorMasterConditionInput
+  ) {
+    deleteVendorMaster(input: $input, condition: $condition) {
+      id
+      vendor_Name
+      vendor_Code
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteExamStatus = /* GraphQL */ `
+  mutation DeleteExamStatus(
+    $input: DeleteExamStatusInput!
+    $condition: ModelExamStatusConditionInput
+  ) {
+    deleteExamStatus(input: $input, condition: $condition) {
+      id
+      leadMasterID
+      status
+      examID
+      proposedDate
+      proposedTime
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteExamMaster = /* GraphQL */ `
+  mutation DeleteExamMaster(
+    $input: DeleteExamMasterInput!
+    $condition: ModelExamMasterConditionInput
+  ) {
+    deleteExamMaster(input: $input, condition: $condition) {
+      id
+      exam_name
+      exam_code
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
+export const deleteLeadMaster = /* GraphQL */ `
+  mutation DeleteLeadMaster(
+    $input: DeleteLeadMasterInput!
+    $condition: ModelLeadMasterConditionInput
+  ) {
+    deleteLeadMaster(input: $input, condition: $condition) {
+      id
+      name
+      email
+      country_code
+      phone
+      exam_Id
+      vendor_Id
+      payment_id
+      trainer_charges
+      net_profit
+      total_fees
+      executiveID
+      payment
+      proposedDate
+      proposedTime
+      confirmation_number
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+  }
+`;
 export const createExecutiveMaster = /* GraphQL */ `
   mutation CreateExecutiveMaster(
     $input: CreateExecutiveMasterInput!
@@ -49,30 +180,6 @@ export const updateExecutiveMaster = /* GraphQL */ `
     }
   }
 `;
-export const deleteExecutiveMaster = /* GraphQL */ `
-  mutation DeleteExecutiveMaster(
-    $input: DeleteExecutiveMasterInput!
-    $condition: ModelExecutiveMasterConditionInput
-  ) {
-    deleteExecutiveMaster(input: $input, condition: $condition) {
-      id
-      name
-      phone
-      email
-      imageURI
-      filename
-      status
-      username
-      gender
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
 export const createPaymentMaster = /* GraphQL */ `
   mutation CreatePaymentMaster(
     $input: CreatePaymentMasterInput!
@@ -82,6 +189,7 @@ export const createPaymentMaster = /* GraphQL */ `
       id
       status
       leadMasterID
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -100,24 +208,7 @@ export const updatePaymentMaster = /* GraphQL */ `
       id
       status
       leadMasterID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const deletePaymentMaster = /* GraphQL */ `
-  mutation DeletePaymentMaster(
-    $input: DeletePaymentMasterInput!
-    $condition: ModelPaymentMasterConditionInput
-  ) {
-    deletePaymentMaster(input: $input, condition: $condition) {
-      id
-      status
-      leadMasterID
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -163,24 +254,6 @@ export const updateVendorMaster = /* GraphQL */ `
     }
   }
 `;
-export const deleteVendorMaster = /* GraphQL */ `
-  mutation DeleteVendorMaster(
-    $input: DeleteVendorMasterInput!
-    $condition: ModelVendorMasterConditionInput
-  ) {
-    deleteVendorMaster(input: $input, condition: $condition) {
-      id
-      vendor_Name
-      vendor_Code
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
 export const createExamStatus = /* GraphQL */ `
   mutation CreateExamStatus(
     $input: CreateExamStatusInput!
@@ -191,6 +264,8 @@ export const createExamStatus = /* GraphQL */ `
       leadMasterID
       status
       examID
+      proposedDate
+      proposedTime
       createdAt
       updatedAt
       _version
@@ -210,25 +285,8 @@ export const updateExamStatus = /* GraphQL */ `
       leadMasterID
       status
       examID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const deleteExamStatus = /* GraphQL */ `
-  mutation DeleteExamStatus(
-    $input: DeleteExamStatusInput!
-    $condition: ModelExamStatusConditionInput
-  ) {
-    deleteExamStatus(input: $input, condition: $condition) {
-      id
-      leadMasterID
-      status
-      examID
+      proposedDate
+      proposedTime
       createdAt
       updatedAt
       _version
@@ -274,24 +332,6 @@ export const updateExamMaster = /* GraphQL */ `
     }
   }
 `;
-export const deleteExamMaster = /* GraphQL */ `
-  mutation DeleteExamMaster(
-    $input: DeleteExamMasterInput!
-    $condition: ModelExamMasterConditionInput
-  ) {
-    deleteExamMaster(input: $input, condition: $condition) {
-      id
-      exam_name
-      exam_code
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
 export const createLeadMaster = /* GraphQL */ `
   mutation CreateLeadMaster(
     $input: CreateLeadMasterInput!
@@ -311,6 +351,9 @@ export const createLeadMaster = /* GraphQL */ `
       total_fees
       executiveID
       payment
+      proposedDate
+      proposedTime
+      confirmation_number
       createdAt
       updatedAt
       _version
@@ -339,34 +382,9 @@ export const updateLeadMaster = /* GraphQL */ `
       total_fees
       executiveID
       payment
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const deleteLeadMaster = /* GraphQL */ `
-  mutation DeleteLeadMaster(
-    $input: DeleteLeadMasterInput!
-    $condition: ModelLeadMasterConditionInput
-  ) {
-    deleteLeadMaster(input: $input, condition: $condition) {
-      id
-      name
-      email
-      country_code
-      phone
-      exam_Id
-      vendor_Id
-      payment_id
-      trainer_charges
-      net_profit
-      total_fees
-      executiveID
-      payment
+      proposedDate
+      proposedTime
+      confirmation_number
       createdAt
       updatedAt
       _version
