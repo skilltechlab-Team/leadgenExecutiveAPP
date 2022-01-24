@@ -6,7 +6,7 @@ import DrawerRoutes from './DrawerNavigators/MainDrawer';
 import LeadGenaration from '../screens/LeadGenaration';
 import NotFound from '../screens/NotFound';
 import EditLeadDetails from '../screens/EditLeadDetails'
-// import DrawerRoutes from './DrawerNavigators/MainDrawer';
+import OtpScreen from '../AuthScrren/OtpScreen';
 // import EditExecutive from '../Screens/EditExecutive';
 const MainNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -21,8 +21,8 @@ const MainNavigator = () => {
                 <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
                 <Stack.Screen name="NotFound" component={NotFound} />
                 <Stack.Screen name="EditLeadDetails" component={EditLeadDetails} />
-                {/* <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
-                <Stack.Screen name="EditExecutive" component={EditExecutive} /> */}
+                <Stack.Screen name="OtpScreen" component={OtpScreen} />
+
             </Stack.Navigator>
         </NavigationContainer>
     );
