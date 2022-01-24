@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Heading, HStack } from 'native-base';
+import { Box, Text, Heading, HStack } from 'native-base';
 import HandleLogin from '../../components/AuthComp/HandleLogin';
 import getUsers from '../../controller/getUsers';
 import handleLoginEvent, { getCurrentAuthenticatedUser } from '../../controller/handleLoginEvent';
@@ -69,7 +69,7 @@ const Login = ({ navigation }) => {
                         }
                     </HStack>
                 </Box>
-
+                <Text>Forgot PassWord</Text>
             </Box>
             :
             <UserLoading />
