@@ -13,7 +13,7 @@ import SubmitButton from '../../components/SubmitButton';
 import UserLoading from '../../components/AuthComp/UserLoading'
 
 const Login = ({ navigation }) => {
-    const [loginHandler, setLoginHandler] = React.useState({ username: 'avik', password: 'Mahavir2' });
+    const [loginHandler, setLoginHandler] = React.useState({ username: '', password: '' });
     const [status, setStatus] = useState({});
     const [isUploading, setIsUploading] = useState(false);
     const dispatch = useDispatch();
