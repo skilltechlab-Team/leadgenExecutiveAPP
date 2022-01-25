@@ -2,7 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import produce from "immer"
 const initialState = {
-    paymentStatus: []
+    paymentStatus: [
+        {
+            id: 0,
+            _version: 0,
+            status: '',
+            confirmation_number: ''
+        }
+    ]
 }
 
 export const paymentStatus = createSlice({

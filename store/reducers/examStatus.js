@@ -2,7 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import produce from "immer"
 const initialState = {
-    examStatus: []
+    examStatus: [
+        {
+            id: 0,
+            _version: 0,
+            status: '',
+            proposedDate: '',
+            proposedTime: ''
+        }
+    ]
 }
 
 export const examStatus = createSlice({
@@ -12,6 +20,7 @@ export const examStatus = createSlice({
         createExamsStatus: (state, action) => {
 
             const nextState = produce(state.examStatus, draftState => {
+                // console.log(`action.payload =>\t`, ...action.payload);
                 draftState = [...action.payload]
                 return draftState;
             })

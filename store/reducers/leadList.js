@@ -2,7 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import produce from "immer"
 const initialState = {
-    leadList: []
+    leadList: [
+        {
+            id: 0,
+            _version: 0,
+            proposedDate: '',
+            proposedTime: '',
+            confirmation_number: ''
+        }
+    ]
 }
 
 export const leadList = createSlice({
