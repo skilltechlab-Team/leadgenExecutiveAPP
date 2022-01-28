@@ -1,6 +1,7 @@
 import { API } from "aws-amplify"
 import * as mutations from '../src/graphql/mutations'
 export default createALead = async (lead, toast, paymentStatusDetails, examStatusDetails) => {
+    console.log(lead);
     try {
         const leadOBJ = await API.graphql({ query: mutations.createLeadMaster, variables: { input: lead } });
         const leadMaster = await leadOBJ.data.createLeadMaster;
@@ -19,6 +20,12 @@ export default createALead = async (lead, toast, paymentStatusDetails, examStatu
                     input: examStatusDetails
                 }
             });
+            const updateData = {
+                id: leadMasterID,
+                payment_id: paymentStatus.data.createPaymentMaster.id,
+                _version: leadMaster._version
+            }
+            const updatePaymentID = await API.graphql({ query: mutations.updateLeadMaster, variables: { input: updateData } })
             return leadMasterID;
         } else return -1
     } catch (error) {

@@ -71,6 +71,11 @@ export const onCreatePaymentMaster = /* GraphQL */ `
       status
       leadMasterID
       confirmation_number
+      paid_amount
+      due_amount
+      trainer_charges
+      net_profit
+      total_fees
       createdAt
       updatedAt
       _version
@@ -87,6 +92,11 @@ export const onUpdatePaymentMaster = /* GraphQL */ `
       status
       leadMasterID
       confirmation_number
+      paid_amount
+      due_amount
+      trainer_charges
+      net_profit
+      total_fees
       createdAt
       updatedAt
       _version
@@ -103,6 +113,11 @@ export const onDeletePaymentMaster = /* GraphQL */ `
       status
       leadMasterID
       confirmation_number
+      paid_amount
+      due_amount
+      trainer_charges
+      net_profit
+      total_fees
       createdAt
       updatedAt
       _version

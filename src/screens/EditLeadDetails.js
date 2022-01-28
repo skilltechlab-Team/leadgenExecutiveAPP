@@ -5,14 +5,35 @@ import { MaterialIcons, AntDesign } from "@expo/vector-icons"
 import country_codes from '../../constants/country_codes'
 import SubmitButton from '../../components/SubmitButton';
 import LoadingButton from '../../components/LoadingButton';
-import { API } from "aws-amplify"
+import { API, graphqlOperation } from "aws-amplify"
 import * as mutations from '../../src/graphql/mutations'
 import getStatus, { statusNames } from '../../constants/Satus'
 import AlertCreator from '../../components/AlertCreator';
-import { TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity } from 'react-native';
+import * as queries from '../../src/graphql/queries';
+
 const EditLeadDetails = ({ route, navigation }) => {
     const { executiveLead } = route.params;
     const exLead = executiveLead[0];
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = React.useCallback(async () => {
+        setRefreshing(true);
+        const lead = await API.graphql(graphqlOperation(queries.getLeadMaster, { id: exLead.id }));
+        setLead(() => {
+            setRefreshing(!true);
+            return ({
+                id: lead.data.getLeadMaster.id,
+                name: lead.data.getLeadMaster.name,
+                phone: lead.data.getLeadMaster.phone,
+                email: lead.data.getLeadMaster.email,
+                country_code: lead.data.getLeadMaster.country_code,
+                _version: lead.data.getLeadMaster._version
+            })
+        })
+    }, []);
+    React.useEffect(() => {
+        onRefresh();
+    }, [exLead])
     const [lead, setLead] = useState({
         id: exLead.id,
         name: exLead.name,
@@ -58,7 +79,13 @@ const EditLeadDetails = ({ route, navigation }) => {
 
 
     return (
-        <ScrollView flexGrow={1} keyboardShouldPersistTaps={'handled'} >
+        <ScrollView flexGrow={1} keyboardShouldPersistTaps={'handled'} refreshControl={
+            <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+            />
+        }
+        >
             <Box h={90} px={3} bg={'indigo.500'} justifyContent={'space-between'} w={'100%'} alignItems={'center'} pt={30} flexDir={'row'} >
                 <Box>
                     <Heading size={'md'} color={'#fff'}  >{exLead.name}</Heading>

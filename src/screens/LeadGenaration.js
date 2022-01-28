@@ -95,14 +95,19 @@ const LeadGenaration = ({ navigation }) => {
                     net_profit: net_profit,
                     total_fees: total_course_fee,
                     executiveID: userID,
-                    payment: payment,
+                    payment: lead.payment,
                     proposedDate,
                     proposedTime,
                     confirmation_number
                 }
                 const paymentStatusDetails = {
                     status: payment_status,
-                    confirmation_number
+                    confirmation_number,
+                    paid_amount: lead.payment,
+                    due_amount: (total_course_fee - lead.payment > 0) ? total_course_fee - lead.payment : 0,
+                    trainer_charges: trainer_charges,
+                    net_profit: net_profit,
+                    total_fees: total_course_fee
                 }
                 const examStatusDetails = {
 

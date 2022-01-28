@@ -175,6 +175,41 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "paid_amount": {
+                    "name": "paid_amount",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "due_amount": {
+                    "name": "due_amount",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "trainer_charges": {
+                    "name": "trainer_charges",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "net_profit": {
+                    "name": "net_profit",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "total_fees": {
+                    "name": "total_fees",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -776,5 +811,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "d06b8b404880a79ee8526dc5371ec1f3"
+    "version": "98e03a63f599c79bc7ef8f73ce2220e9"
 };

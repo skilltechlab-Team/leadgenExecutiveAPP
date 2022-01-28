@@ -49,6 +49,11 @@ export declare class PaymentMaster {
   readonly status?: string;
   readonly leadMasterID: string;
   readonly confirmation_number?: string;
+  readonly paid_amount?: string;
+  readonly due_amount?: string;
+  readonly trainer_charges?: string;
+  readonly net_profit?: string;
+  readonly total_fees?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<PaymentMaster, PaymentMasterMetaData>);
