@@ -6,10 +6,12 @@ export default updateLeadDetails = async (exam, payment, leadSetter, setPaymentD
         mod_payment = { ...payment, confirmation_number: "" }
     }
 
+    let _exTemp = exam;
+    (_exTemp?.proposedDate !== '' || _exTemp?.proposedDate !== null) ? _exTemp.proposedDate = new Date(exam.proposedDate) : '';
+
     try {
-        API.graphql({ query: mutations.updateExamStatus, variables: { input: exam } }).then((status) => {
+        API.graphql({ query: mutations.updateExamStatus, variables: { input: _exTemp } }).then((status) => {
             if (status) {
-                // console.log(`\nupdateExamStatus => `, status, `\n\n`);
                 setExamDetails(exam => ({
                     ...exam,
                     _version: status.data.updateExamStatus._version,
@@ -25,8 +27,9 @@ export default updateLeadDetails = async (exam, payment, leadSetter, setPaymentD
                             status: res.data.updatePaymentMaster.status,
                             confirmation_number: res.data.updatePaymentMaster.confirmation_number
                         }))
-
-                        API.graphql({ query: mutations.updateLeadMaster, variables: { input: leadSetter } }).then((r) => {
+                        const temp = leadSetter;
+                        if (temp?.status !== undefined) delete temp.status;
+                        API.graphql({ query: mutations.updateLeadMaster, variables: { input: temp } }).then((r) => {
                             if (r) {
                                 setLeadSetter(lead => ({
                                     ...lead,

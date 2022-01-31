@@ -17,6 +17,7 @@ const CreateLead = ({ leadSetter }) => {
     const pattern = date_time.compile('ddd, MMM DD YYYY');
     const pattern2 = date_time.compile('hh : mm A');
 
+
     const DismissKeyboard = ({ children }) => (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             {children}
@@ -34,6 +35,9 @@ const CreateLead = ({ leadSetter }) => {
             setDate(currentDate);
             setLead((lead) => ({ ...lead, proposedDate: date_time.format(currentDate, pattern) }))
             setLead((lead) => ({ ...lead, proposedTime: date_time.format(currentDate, pattern2) }))
+        } else {
+            setShow(false)
+            console.log('else');
         }
     };
 

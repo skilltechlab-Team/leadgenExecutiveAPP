@@ -8,7 +8,8 @@ import {
     FormControl,
     Input,
     Icon,
-    Text
+    Text,
+    Pressable
 } from 'native-base';
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons"
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -44,7 +45,7 @@ const UpdateLead = ({ modalFN, details, userState, updateFN, uploadFn, leadMaste
             setExamDetails((exam) => ({ ...exam, proposedTime: date_time.format(currentDate, pattern2) }))
             setLeadSetter((lead) => ({ ...lead, proposedDate: date_time.format(currentDate, pattern), proposedTime: date_time.format(currentDate, pattern2) }))
 
-        }
+        } else setShow(!true);
     };
 
     const updateExamState = () => {
@@ -109,15 +110,13 @@ const UpdateLead = ({ modalFN, details, userState, updateFN, uploadFn, leadMaste
                                 examDetails.status === "reschedule" ?
                                 <FormControl my={3} isRequired >
                                     <FormControl.Label>Select Date</FormControl.Label>
-                                    <DismissKeyboard>
+                                    <Pressable onPress={showDatepicker} >
                                         <Input
                                             w={{
                                                 base: "100%",
                                                 md: "25%",
                                             }}
-
-                                            onPressIn={showDatepicker}
-
+                                            isDisabled={true}
                                             InputLeftElement={
                                                 <Icon
                                                     as={<MaterialIcons name="calendar-today" />}
@@ -128,9 +127,10 @@ const UpdateLead = ({ modalFN, details, userState, updateFN, uploadFn, leadMaste
                                             }
                                             placeholder="DD/MM/YYYY"
                                             borderColor={'muted.600'}
-                                            value={examDetails.proposedDate}
+                                            value={date_time.format(new Date(examDetails.proposedDate), pattern)}
+
                                         />
-                                    </DismissKeyboard>
+                                    </Pressable>
                                 </FormControl> : <></>
                         }
                         {
@@ -138,15 +138,13 @@ const UpdateLead = ({ modalFN, details, userState, updateFN, uploadFn, leadMaste
                                 examDetails.status === "reschedule" ?
                                 <FormControl my={3} isRequired  >
                                     <FormControl.Label>Select Date</FormControl.Label>
-                                    <DismissKeyboard>
+                                    <Pressable onPress={showTimepicker}>
                                         <Input
                                             w={{
                                                 base: "100%",
                                                 md: "25%",
                                             }}
-
-                                            onPressIn={showTimepicker}
-
+                                            isDisabled={true}
                                             InputLeftElement={
                                                 <Icon
                                                     as={<MaterialIcons name="calendar-today" />}
@@ -159,7 +157,7 @@ const UpdateLead = ({ modalFN, details, userState, updateFN, uploadFn, leadMaste
                                             borderColor={'muted.600'}
                                             value={examDetails.proposedTime}
                                         />
-                                    </DismissKeyboard>
+                                    </Pressable>
                                 </FormControl> : <></>
                         }
                         <FormControl >

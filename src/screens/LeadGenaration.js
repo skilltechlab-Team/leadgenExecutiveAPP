@@ -66,7 +66,7 @@ const LeadGenaration = ({ navigation }) => {
     async function onSubmit() {
         setIsUploading(true)
         calculateNetProfit(lead.total_course_fee, lead.trainer_charges);
-        const { vendor_id, exam_id, country_code, email, name, phone, payment, trainer_charges, net_profit, total_course_fee, exam_status, payment_status, proposedDate, proposedTime, confirmation_number } = lead;
+        let { vendor_id, exam_id, country_code, email, name, phone, payment, trainer_charges, net_profit, total_course_fee, exam_status, payment_status, proposedDate, proposedTime, confirmation_number } = lead;
 
         if (vendor_id !== '' && exam_id !== '' && name !== '' && phone !== '' && payment !== '' && trainer_charges !== '' && net_profit !== '' && total_course_fee !== '' && exam_status !== '' && payment_status !== '') {
             if ((exam_status === "booked" || exam_status === "reschedule") && (proposedDate === '' || proposedTime === '')) {
@@ -83,6 +83,16 @@ const LeadGenaration = ({ navigation }) => {
                 }, 5000);
             }
             else {
+                if (proposedDate === '')
+                    proposedDate = null;
+                else proposedDate = new Date(proposedDate);
+                if (exam_status === "complete") {
+                    proposedDate = null;
+                    proposedTime = null;
+                }
+                if (payment_status === 'Recieved') {
+                    confirmation_number = null;
+                }
                 const leadDetailsObject = {
                     name: name,
                     email: email,
@@ -110,12 +120,12 @@ const LeadGenaration = ({ navigation }) => {
                     total_fees: total_course_fee
                 }
                 const examStatusDetails = {
-
                     status: exam_status,
                     examID: exam_id,
                     proposedDate,
                     proposedTime
                 }
+
                 const submissionStatus = await createALead(leadDetailsObject, toast, paymentStatusDetails, examStatusDetails);
                 if (submissionStatus !== -1) {
                     setStatus(getStatus(statusNames.success, 'Lead Generated Successfully!'))
