@@ -7,8 +7,10 @@ import MainNavigator from './src/Navigators/MainNavigator';
 import { Provider } from "react-redux";
 import { LogBox } from 'react-native';
 
+
 LogBox.ignoreLogs(['Reanimated 2', 'Setting a timer', 'Using an insecure random number generator, this should only happen when running in a debugger without support for crypto.getRandomValues', 'valid reducer', 'Each child in a list should have a unique "key" prop']);
 Amplify.configure(config)
+
 function App() {
 
   return (

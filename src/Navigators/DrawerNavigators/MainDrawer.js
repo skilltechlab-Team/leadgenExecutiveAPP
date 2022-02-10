@@ -5,7 +5,7 @@ import { Text } from "native-base";
 import AdminDrawerContent from "./MainDrawerContent";
 import LeadGenaration from "../../screens/LeadGenaration";
 import ViewLead from "../../screens/ViewLead";
-
+import About from '../../screens/About'
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes() {
@@ -51,6 +51,17 @@ export default function DrawerRoutes() {
                 ),
             }} />
 
+            <Drawer.Screen name="About" component={About} options={{
+                title: "About",
+                drawerIcon: ({ focused, size }) => (
+                    <Icon name="info" size={size} color={focused ? "#3e3d70" : "#3e3d70"} />
+                ),
+                drawerLabel: ({ focused }) => (
+                    <Text color={focused ? "#3e3d70" : "#3e3d70"}  >
+                        About
+                    </Text>
+                ),
+            }} />
         </Drawer.Navigator >
     );
 }
